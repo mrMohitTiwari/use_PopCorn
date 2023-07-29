@@ -43,7 +43,7 @@ export default function StarRating({
   };
   function handleRating(rating) {
     setRating(rating);
-    onSetRating(setRating);
+    onSetRating(rating);
   }
   return (
     <div style={containerStyle} className={className}>
@@ -53,6 +53,7 @@ export default function StarRating({
             <Star
               color={color}
               size={size}
+              key={i}
               onClick={() => handleRating(i + 1)}
               full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
               onHoverIn={() => setTempRating(i + 1)}
