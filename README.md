@@ -1,70 +1,43 @@
-# Getting Started with Create React App
+# UsePopcorn Movie App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+UsePopcorn is a movie app that allows users to discover and explore movies from the OMDB (Open Movie Database) API. The app enables users to search for movies, view movie details, and manage their watchlist by saving movies with personal ratings for future viewing.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Movie Search**: Users can search for movies using keywords or movie titles to find relevant movie results.
 
-### `npm start`
+- **Movie Details**: Each movie in the search results displays essential information such as the title, release year, plot summary, and IMDb rating.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **User Ratings**: Users can give their own ratings to the movies they have watched, allowing them to keep track of their personal preferences.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Watchlist**: UsePopcorn offers a watchlist feature where users can save movies they are interested in watching later.
 
-### `npm test`
+## How to Use
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. **Search for Movies**: On the app's home screen, there will be a search bar where users can enter the name of a movie or relevant keywords. Press the "Search" button or hit "Enter" to see a list of movie results.
 
-### `npm run build`
+2. **Explore Movie Details**: From the search results, click on a movie poster or title to view more detailed information about the selected movie, including its plot summary, IMDb rating, and other relevant details.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. **Rate Movies**: While viewing the movie details, users have the option to rate the movie based on their personal preference. The rating will be saved for the user to reference later.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. **Save to Watchlist**: For movies users wish to watch in the future, they can add them to their watchlist by clicking the "Add to Watchlist" button available on the movie details page.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+5. **Manage Watchlist**: Users can access their watchlist by navigating to the "Watchlist" section of the app. Here, they can view all the movies they have saved for future viewing.
 
-### `npm run eject`
+6. **Remove from Watchlist**: If a user has already watched a movie from their watchlist or no longer wishes to keep it, they can remove it from the watchlist with the "Remove" button.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Technologies Used
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **React**: The app is built using the React JavaScript library, providing a responsive and interactive user interface.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- **OMDB API**: UsePopcorn fetches movie data from the OMDB API, allowing users to access a vast collection of movie information.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- **Axios**: Axios is used to make API requests to the OMDB API and handle data retrieval.
 
-## Learn More
+- **LocalStorage**: User ratings and watchlist data are stored locally in the browser using LocalStorage for easy access and retrieval.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Note
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+UsePopcorn is a personal project developed for educational purposes, and it does not store any user data or require any sign-up or authentication. The movie data is sourced from the public OMDB API, and the user's watchlist and ratings are stored locally on their device using the browser's LocalStorage.
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Happy movie exploring with UsePopcorn! 🍿🎥
