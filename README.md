@@ -10,7 +10,8 @@ UsePopcorn is a movie app built using React, leveraging various React features s
 
 - **User Ratings**: Users can give their own ratings to the movies they have watched, allowing them to keep track of their personal preferences.
 
-- **Watchlist**: UsePopcorn offers a watchlist feature where users can save movies they are interested in watching later.
+- **Watchlist**: usePopcorn offers a watchlist feature where users can save movies they are interested in watching later.
+- **bookMarking**: usePopcorn offers a bookmarking feature for the movies you select.
 
 ## How to Use
 
@@ -30,14 +31,15 @@ UsePopcorn is a movie app built using React, leveraging various React features s
 
 - **React**: The app is built using the React JavaScript library, providing a responsive and interactive user interface.
 
-- **OMDB API**: UsePopcorn fetches movie data from the OMDB API, allowing users to access a vast collection of movie information.
+- **OMDB API**: usePopcorn fetches movie data from the OMDB API, allowing users to access a vast collection of movie information.
 
 - **Axios**: Axios is used to make API requests to the OMDB API and handle data retrieval.
 
 - **LocalStorage**: User ratings and watchlist data are stored locally in the browser using LocalStorage for easy access and retrieval.
+- **Custom Component**: I used Cutom component to make the logic of the app reusable.
 
 ## Note
 
-UsePopcorn is a personal project developed for educational purposes, and it does not store any user data or require any sign-up or authentication. The movie data is sourced from the public OMDB API, and the user's watchlist and ratings are stored locally on their device using the browser's LocalStorage.
+usePopcorn is a personal project developed for educational purposes, and it does not store any user data or require any sign-up or authentication. The movie data is sourced from the public OMDB API, and the user's watchlist and ratings are stored locally on their device using the browser's LocalStorage.
 
-Happy movie exploring with UsePopcorn! 🍿🎥
+Happy movie exploring with usePopcorn! 🍿🎥
