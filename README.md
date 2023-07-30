@@ -1,6 +1,6 @@
 # UsePopcorn Movie App
 
-UsePopcorn is a movie app that allows users to discover and explore movies from the OMDB (Open Movie Database) API. The app enables users to search for movies, view movie details, and manage their watchlist by saving movies with personal ratings for future viewing.
+UsePopcorn is a movie app built using React, leveraging various React features such as useState, state management, and useEffect hook for data fetching. This application allows users to discover and explore movies using the OMDB (Open Movie Database) API. Users can search for movies, view movie details, rate movies, and save them to a watchlist for future viewing.
 
 ## Features
 
