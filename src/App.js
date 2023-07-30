@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-
+import { useEffect, useRef, useState } from "react";
+import { useMovies } from "./useMovies";
 import StarRating from "./starRating";
 const tempMovieData = [
   {
@@ -75,6 +75,21 @@ function Logo() {
   );
 }
 function Search({ query, setQuery }) {
+  const inputEl = useRef(null);
+  useEffect(
+    function () {
+      function callback(e) {
+        // if already focused
+        if (document.activeElement === inputEl.current) return;
+        if (e.code === "Enter") {
+          inputEl.current.focus();
+          setQuery("");
+        }
+      }
+      document.addEventListener("keydown", callback);
+    },
+    [setQuery]
+  );
   return (
     <input
       className="search"
@@ -82,6 +97,8 @@ function Search({ query, setQuery }) {
       placeholder="Search movies..."
       value={query}
       onChange={(e) => setQuery(e.target.value)}
+      // now we are telling that ref that this is that element in which we want to have dom manupilation and now we will use effect hook and this ref will take valuw only after the component is loaded
+      ref={inputEl}
     />
   );
 }
@@ -90,14 +107,17 @@ function Main({ children }) {
 }
 // my key for omdb api
 const KEY = "9b49783b";
-const tempQuery = "love";
+// const tempQuery = "love";
 export default function App() {
-  const [movies, setMovies] = useState(tempMovieData);
-  const [watched, setWatched] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState("");
+  const { movies, isLoading, error } = useMovies(query);
+
+  // const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState(function () {
+    const storeValue = localStorage.getItem("watched");
+    return JSON.parse(storeValue);
+  });
   // creating handle function to selecting movie
   function handleSelectMovie(id) {
     // setSelectedId(id);
@@ -108,51 +128,21 @@ export default function App() {
   }
   function handleAddWatched(movie) {
     setWatched((previouslyWatched) => [...previouslyWatched, movie]);
+    // localStorage.setItem("watched", JSON.stringify([...watched, movie]));
   }
   function handleDeleteWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
 
   // starting with data fetching
-  const controller = new AbortController();
+  // creating local storage
   useEffect(
     function () {
-      async function fetchMovies() {
-        try {
-          setIsLoading((t) => (t = true));
-          setError((e) => (e = ""));
-          const res = await fetch(
-            `http://www.omdbapi.com/?i=tt3896198&apikey=${KEY}&s=${query}`,
-            { signal: controller.signal }
-          );
-          if (!res.ok)
-            throw new Error("Something went Wrong With fetching Movies");
-          const data = await res.json();
-          // now what if the searched movie is not avialble
-          if (data.Response === "False") throw new Error("movie not found");
-          setMovies((movies) => (movies = data.Search));
-        } catch (error) {
-          if (error.name !== "AbortError") {
-            console.error(error.name);
-            setError(error.message);
-          }
-        } finally {
-          setIsLoading(false);
-        }
-      }
-      // checking if query is there with min lenegth of three
-      if (query.length <= 3) {
-        setError("");
-        setMovies([]);
-        return;
-      }
-      fetchMovies();
-      return function () {
-        controller.abort();
-      };
+      localStorage.setItem("watched", JSON.stringify(watched));
     },
-    [query]
+    [watched]
   );
+
   return (
     <>
       <Navbar>
@@ -261,18 +251,8 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   const [isLoading, setIsLoading] = useState(false);
   const [userRating, setUserRating] = useState("");
   const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
-  useEffect(
-    function () {
-      function callback(e) {
-        if (e.code === "Escape") {
-          onCloseMovie();
-        }
-      }
-      document.addEventListener("keydown", callback);
-      return document.removeEventListener("keydown", callback);
-    },
-    [onCloseMovie]
-  );
+  const countRef = useRef(0);
+  // const [averageRating, setAverageRating] = useState(0);
   const watchedUserRating = watched.find(
     (movie) => movie.imdbID === selectedId
   )?.userRating;
@@ -289,6 +269,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     Director: director,
     Genre: genre,
   } = movie;
+
   function handleAddMovie() {
     const newWatchedMovie = {
       imdbID: selectedId,
@@ -298,10 +279,29 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
       imdbRating: Number(imdbRating),
       userRating,
       runtime: Number(runtime.split(" ").at(0)),
+      ratingDecisionCount: countRef.current,
     };
     onAddWatched(newWatchedMovie);
     onCloseMovie();
+    // setAverageRating(Number(imdbRating));
+    // setAverageRating((averageRating) => (averageRating + userRating) / 2);
   }
+  useEffect(() => {
+    // we use if beacuse it should only add 1 if there is already a user rating
+    if (userRating) countRef.current = countRef.current + 1;
+  }, [userRating]);
+  useEffect(
+    function () {
+      function callback(e) {
+        if (e.code === "Escape") {
+          onCloseMovie();
+        }
+      }
+      document.addEventListener("keydown", callback);
+      return document.removeEventListener("keydown", callback);
+    },
+    [onCloseMovie]
+  );
   useEffect(
     function () {
       if (!title) return;
@@ -355,6 +355,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
               </p>
             </div>
           </header>
+          {/* <p>{averageRating}</p> */}
           <section>
             <div className="rating">
               {!isWatched ? (
@@ -474,3 +475,12 @@ function ErrorMessage({ errorMessage }) {
 // as we are clicking on any movie we are getting the movie with its tittle on tittle bar but when we are closing or coming back then it is not changing so now we will learn about cleanup function in use effect
 // as when we search in search bar many request happens at the same time so we will use cleanup by using
 // abort controller given by the browser
+// now we want to display the average of the rating user give and the og rating so we need new piece of state
+// we will add that functionality when the user cliked on the add button
+// so it was just for learning about state now we will make local storage use
+// using hooks with callback
+// so we will update the local storage each time the watchedMovie state is updated
+// we can do this by just adding it in handle watched movir or using use effect hook
+// we are trying both the ways
+// so now we have created a sideEffect for storing the data in local storage andd now we can think that we should use another side effect when we are updating the watched hook with local storage but we do have an alternative we will make a callbak function inside useState of watched movie
+// now crating a ref for countRafing how many times user have clicked on the rating user Rating
